@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agri Pharma - Agricultural Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2e7d32;
+        }
+
+        .logo-text span {
+            color: #ff8f00;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-farmer {
+            background-color: transparent;
+            color: #2e7d32;
+            border: 2px solid #2e7d32;
+        }
+
+        .btn-farmer:hover {
+            background-color: #2e7d32;
+            color: white;
+        }
+
+        .btn-buyer {
+            background-color: #2e7d32;
+            color: white;
+        }
+
+        .btn-buyer:hover {
+            background-color: #1b5e20;
+        }
+
+        .categories {
+            background-color: #f1f8e9;
+            padding: 20px 0;
+            border-bottom: 1px solid #dcedc8;
+        }
+
+        .categories-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .category {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            padding: 15px 10px;
+            margin: 5px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .category.active {
+            background-color: #2e7d32;
+            color: white;
+        }
+
+        .category i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #ff8f00;
+        }
+
+        .category.active i {
+            color: white;
+        }
+
+        .category h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            color: #2e7d32;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 3px;
+            background-color: #ff8f00;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .crops-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .crop-card {
+            display: flex;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .crop-card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .crop-card:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .crop-image {
+            flex: 1;
+            min-width: 300px;
+            max-width: 400px;
+            overflow: hidden;
+        }
+
+        .crop-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .crop-card:hover .crop-image img {
+            transform: scale(1.05);
+        }
+
+        .crop-details {
+            flex: 2;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .crop-name {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+
+        .crop-description {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .crop-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .info-item {
+            background-color: #f1f8e9;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #2e7d32;
+        }
+
+        .read-more {
+            align-self: flex-start;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ff8f00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .read-more:hover {
+            background-color: #f57c00;
+        }
+
+        footer {
+            background-color: #2e7d32;
+            color: white;
+            padding: 40px 0 20px;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: #ff8f00;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #dcedc8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ff8f00;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: #ff8f00;
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: #dcedc8;
+        }
+
+        @media (max-width: 768px) {
+            .categories-container {
+                flex-wrap: wrap;
+            }
+            
+            .category {
+                min-width: calc(33.33% - 10px);
+                margin: 5px;
+            }
+            
+            .crop-card, .crop-card:nth-child(even) {
+                flex-direction: column;
+            }
+            
+            .crop-image {
+                max-width: 100%;
+            }
+            
+            .footer-container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .category {
+                min-width: calc(50% - 10px);
+            }
+            
+            .navbar-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="logo">
+                <!-- <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjMmU3ZDMyIiBkPSJNNjQgOTZINDQ4YzguOCAwIDE2IDcuMiAxNiAxNlY0MTZjMCA4LjgtNy4yIDE2LTE2IDE2SDY0Yy04LjggMC0xNi03LjItMTYtMTZWMTEyYzAtOC44IDcuMi0xNiAxNi0xNnptNDggMjA4aDQ4YzguOCAwIDE2LTcuMiAxNi0xNnMtNy4yLTE2LTE2LTE2aC00OGMtOC44IDAtMTYgNy4yLTE2IDE2czYuNCAxNiAxNiAxNnptMC02NGg0OGM4LjggMCAxNi03LjIgMTYtMTZzLTcuMi0xNi0xNi0xNmgtNDhjLTguOCAwLTE2IDcuMi0xNiAxNnM2LjQgMTYgMTYgMTZ6bTAtNjRoNDhjOC44IDAgMTYtNy4yIDE2LTE2cy03LjItMTYtMTYtMTZoLTQ4Yy04LjggMC0xNiA3LjItMTYgMTZzNi40IDE2IDE2IDE2em0yMDggMTc2aDQ4YzguOCAwIDE2LTcuMiAxNi0xNnMtNy4yLTE2LTE2LTE2aC00OGMtOC44IDAtMTYgNy4yLTE2IDE2czYuNCAxNiAxNiAxNnptMC02NGg0OGM4LjggMCAxNi03LjIgMTYtMTZzLTcuMi0xNi0xNi0xNmgtNDhjLTguOCAwLTE2IDcuMi0xNiAxNnM2LjQgMTYgMTYgMTZ6bTAtNjRoNDhjOC44IDAgMTYtNy4yIDE2LTE2cy03LjItMTYtMTYtMTZoLTQ4Yy04LjggMC0xNiA3LjItMTYgMTZzNi40IDE2IDE2IDE2em0tMTA0IDEyOGMzNS4zIDAgNjQtMjguNyA2NC02NHMtMjguNy02NC02NC02NC02NCAyOC43LTY0IDY0IDI4LjcgNjQgNjQgNjR6Ii8+PC9zdmc+" alt="Agri Pharma Logo"> -->
+                <div class="logo-text">Agri<span>Pharma</span></div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-farmer" onclick="location.href='auth/FarmerLogin.php'">Farmer</button>
+                <button class="btn btn-buyer" onclick="location.href='auth/BuyerLogin.php'">Buyer</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Categories Header -->
+    <header class="categories">
+        <div class="container categories-container">
+            <div class="category active" data-category="winter">
+                <i class="fas fa-snowflake"></i>
+                <h3>Winter</h3>
+            </div>
+            <div class="category" data-category="summer">
+                <i class="fas fa-sun"></i>
+                <h3>Summer</h3>
+            </div>
+            <div class="category" data-category="monsoon">
+                <i class="fas fa-cloud-rain"></i>
+                <h3>Monsoon</h3>
+            </div>
+            <div class="category" data-category="vegetable">
+                <i class="fas fa-carrot"></i>
+                <h3>Vegetable</h3>
+            </div>
+            <div class="category" data-category="fruits">
+                <i class="fas fa-apple-alt"></i>
+                <h3>Fruits</h3>
+            </div>
+            <!-- <div class="category" data-category="vertical">
+                <i class="fas fa-seedling"></i>
+                <h3>Vertical Farming</h3>
+            </div> -->
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="section-title">
+                <h2>Winter Crops</h2>
+            </div>
+            <div class="crops-container" id="crops-container">
+                <!-- Crops will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-section">
+                <h3>About AgriPharma</h3>
+                <p>AgriPharma is dedicated to providing farmers with knowledge about crops, medicine, fertilizers, and best farming practices to enhance agricultural productivity.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Crop Calendar</a></li>
+                    <li><a href="#">Fertilizer Guide</a></li>
+                    <li><a href="#">Pest Control</a></li>
+                    <li><a href="#">Weather Updates</a></li>
+                    <li><a href="#">Market Prices</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-map-marker-alt"></i> Marwadi University, Rajkot</li>
+                    <li><i class="fas fa-phone"></i> +91 63547 46459</li>
+                    <li><i class="fas fa-envelope"></i> harshildomadiya5@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 AgriPharma. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample crop data (in a real application, this would come from a PHP backend)
+        const cropData = {
+            winter: [
+                {
+                    name: "Wheat",
+                    image: "https://images.unsplash.com/photo-1574323347407-f5e1c5a1ec21?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    description: "Wheat is a grass widely cultivated for its seed, a cereal grain that is a worldwide staple food. Winter wheat is planted in the fall and harvested in the spring or summer.",
+                    season: "October - November",
+                    harvest: "April - May",
+                    fertilizer: "NPK 20-20-20",
+                    water: "Moderate"
+                },
+                {
+                    name: "Mustard",
+                    image: "https://images.unsplash.com/photo-1564750497011-ead0ce4b9448?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    description: "Mustard is grown for its seeds which are processed to make mustard oil. It's a winter crop that requires minimal irrigation and can tolerate frost.",
+                    season: "October - November",
+                    harvest: "February - March",
+                    fertilizer: "NPK 15-15-15",
+                    water: "Low to Moderate"
+                },
+                {
+                    name: "Peas",
+                    image: "https://images.unsplash.com/photo-1563566908809-e5c4d8e8bfa9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    description: "Green peas are a cool-season crop grown in many parts of the world. They are rich in protein, fiber, and various micronutrients.",
+                    season: "November - December",
+                    harvest: "February - March",
+                    fertilizer: "NPK 10-20-20",
+                    water: "Moderate"
+                }
+            ],
+            summer: [
+                {
+                    name: "Rice",
+                    image: "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    description: "Rice is the seed of the grass species Oryza sativa. As a cereal grain, it is the most widely consumed staple food for a large part of the world's human population.",
+                    season: "June - July",
+                    harvest: "November - December",
+                    fertilizer: "NPK 14-14-14",
+                    water: "High"
+                },
+                {
+                    name: "Cotton",
+                    image: "https://images.unsplash.com/photo-1594179047519-f347310d3322?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    description: "Cotton is a soft, fluffy staple fiber that grows in a boll around the seeds of cotton plants. It is a major cash crop and requires warm temperatures.",
+                    season: "April - May",
+                    harvest: "October - November",
+                    fertilizer: "NPK 20-10-10",
+                    water: "Moderate to High"
+                }
+            ],
+            monsoon: [
+                {
+                    name: "Maize",
+                    image: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    description: "Maize, also known as corn, is a cereal grain first domesticated by indigenous peoples in southern Mexico. It has become a staple food in many parts of the world.",
+                    season: "June - July",
+                    harvest: "September - October",
+                    fertilizer: "NPK 15-15-15",
+                    water: "Moderate"
+                },
+                {
+                    name: "Soybean",
+                    image: "https://images.unsplash.com/photo-1599486045717-d0e3411bbde0?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    description: "Soybeans are legumes native to East Asia, widely grown for their edible bean which has numerous uses. They are an important source of protein.",
+                    season: "June - July",
+                    harvest: "October - November",
+                    fertilizer: "NPK 10-20-20",
+                    water: "Moderate"
+                }
+            ],
+            vegetable: [
+                {
+                    name: "Tomato",
+                    image: "https://images.unsplash.com/photo-1582284540020-8acbe03f4924?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    description: "Tomatoes are the fruit of the plant Solanum lycopersicum, commonly known as a tomato plant. They are widely used in cooking and are a good source of vitamin C.",
+                    season: "Year-round (with proper care)",
+                    harvest: "60-85 days after planting",
+                    fertilizer: "NPK 5-10-10",
+                    water: "Regular, consistent"
+                },
+                {
+                    name: "Spinach",
+                    image: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    description: "Spinach is a leafy green vegetable that originated in Persia. It belongs to the amaranth family and is related to beets and quinoa.",
+                    season: "Cool season (Fall, Winter, Spring)",
+                    harvest: "40-50 days after planting",
+                    fertilizer: "NPK 10-10-10",
+                    water: "Moderate"
+                }
+            ],
+            fruits: [
+                {
+                    name: "Mango",
+                    image: "https://images.unsplash.com/photo-1553279768-865429fa0078?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    description: "Mango is a juicy stone fruit produced from numerous species of tropical trees belonging to the flowering plant genus Mangifera. It is native to South Asia.",
+                    season: "Summer",
+                    harvest: "3-5 months after flowering",
+                    fertilizer: "NPK 10-10-10",
+                    water: "Moderate (less during fruiting)"
+                },
+                {
+                    name: "Apple",
+                    image: "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                    description: "Apples are the fruit of the apple tree (Malus domestica), which is cultivated worldwide and is the most widely grown species in the genus Malus.",
+                    season: "Fall",
+                    harvest: "5-6 months after flowering",
+                    fertilizer: "NPK 10-10-10",
+                    water: "Regular, consistent"
+                }
+            ],
+        //     vertical: [
+        //         {
+        //             name: "Lettuce",
+        //             image: "https://images.unsplash.com/photo-1556801712-76c8eb07bbc9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        //             description: "Lettuce is an annual plant of the daisy family, Asteraceae. It is most often grown as a leaf vegetable, but sometimes for its stem and seeds.",
+        //             season: "Year-round (in controlled environment)",
+        //             harvest: "30-45 days after planting",
+        //             fertilizer: "Hydroponic nutrients",
+        //             water: "Controlled irrigation"
+        //         },
+        //         {
+        //             name: "Strawberry",
+        //             image: "https://images.unsplash.com/photo-1464965911861-746a04b4bca6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        //             description: "The garden strawberry is a widely grown hybrid species of the genus Fragaria, collectively known as the strawberries, which are cultivated worldwide.",
+        //             season: "Year-round (in controlled environment)",
+        //             harvest: "4-6 weeks after flowering",
+        //             fertilizer: "Balanced hydroponic nutrients",
+        //             water: "Controlled irrigation"
+        //         }
+        //     ]
+        	};
+
+        // Function to display crops based on selected category
+        function displayCrops(category) {
+            const cropsContainer = document.getElementById('crops-container');
+            const sectionTitle = document.querySelector('.section-title h2');
+            
+            // Update section title
+            sectionTitle.textContent = category.charAt(0).toUpperCase() + category.slice(1) + ' Crops';
+            
+            // Clear previous crops
+            cropsContainer.innerHTML = '';
+            
+            // Add crops for selected category
+            if (cropData[category]) {
+                cropData[category].forEach(crop => {
+                    const cropCard = document.createElement('div');
+                    cropCard.className = 'crop-card';
+                    
+                    cropCard.innerHTML = `
+                        <div class="crop-image">
+                            <img src="${crop.image}" alt="${crop.name}">
+                        </div>
+                        <div class="crop-details">
+                            <h3 class="crop-name">${crop.name}</h3>
+                            <p class="crop-description">${crop.description}</p>
+                            <div class="crop-info">
+                                <span class="info-item"><i class="fas fa-calendar-alt"></i> Planting: ${crop.season}</span>
+                                <span class="info-item"><i class="fas fa-leaf"></i> Harvest: ${crop.harvest}</span>
+                                <span class="info-item"><i class="fas fa-flask"></i> Fertilizer: ${crop.fertilizer}</span>
+                                <span class="info-item"><i class="fas fa-tint"></i> Water: ${crop.water}</span>
+                            </div>
+                            <button class="read-more">Read More</button>
+                        </div>
+                    `;
+                    
+                    cropsContainer.appendChild(cropCard);
+                });
+            } else {
+                cropsContainer.innerHTML = '<p>No crops available for this category.</p>';
+            }
+        }
+
+        // Add event listeners to category buttons
+        document.querySelectorAll('.category').forEach(categoryBtn => {
+            categoryBtn.addEventListener('click', function() {
+                // Remove active class from all categories
+                document.querySelectorAll('.category').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked category
+                this.classList.add('active');
+                
+                // Display crops for selected category
+                const category = this.getAttribute('data-category');
+                displayCrops(category);
+            });
+        });
+
+        // Display winter crops by default
+        displayCrops('winter');
+    </script>
+
+</body>
+</html>
